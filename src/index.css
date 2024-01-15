@@ -1,13 +1,66 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.btn-hover:hover{
+    background-color: rgb(250, 230, 201);
+    /* padding: 2px; */
+    border-radius: 5px;
+    cursor:pointer
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.sortby-list{
+    top:136%;
+    left:-77px;
+    /* border:1px solid red */
 }
+.font-list{
+    top:132%;
+    left:-182%;
+    /* border:1px solid red */
+}
+
+.search-box:focus{
+    outline: none;
+    border:none;
+}
+
+.search-highlight{
+    background-color: yellow;
+}
+.list-hover:hover{
+    background-color: #fbf1dd;
+   
+}
+
+
+.list-hover-separate:hover{
+    background-color: rgb(255 251 245);
+}
+
+.list-submenu{
+    padding: 0;
+    top: 1%;
+    border-radius: 0;
+   
+}
+
+.li-sub{
+    padding: 5px 1px;
+    text-align: center;
+    border:none;
+    border-radius: 0;
+}
+.li-sub:hover{
+    background-color: #fbf1dd;
+}
+mark{
+    padding: 0;
+}
+
+.form-border{
+    border: 5px solid red;
+}
+
+.text::selection{
+    font-size: "1.5px";
+}
+/* textarea {
+  overflow-y: hidden;
+} */
