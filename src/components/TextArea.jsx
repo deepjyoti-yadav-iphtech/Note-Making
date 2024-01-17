@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react";
+import React from "react";
 
 const TextArea = ({
   onEditField,
   divsContent,
   setDivsContent,
   setSelectedLine,
+  selectedLine
 }) => {
   const handleKeyPress = (event, index) => {
     if (event.key === "Enter") {
       // Create a new array with the previous content and an empty string for the new div
-      const newDivsContent = [...divsContent.slice(0, index + 1), ""];
+      // Create a new array with the previous content and an empty string for the new div
+      const newDivsContent = divsContent.reduce((acc, content, i) => {
+        if (i === index) {
+          return [...acc, content, ""];
+        }
+        return [...acc, content];
+      }, []);
 
       // Update the state with the new array
       setDivsContent(newDivsContent);
@@ -29,8 +36,6 @@ const TextArea = ({
       onEditField("text", newDivsContent);
     }
   };
-
- 
 
   const handleContentChange = (event, index) => {
     // Update the content of the corresponding div in the array

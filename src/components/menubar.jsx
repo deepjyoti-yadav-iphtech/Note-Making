@@ -12,12 +12,9 @@ function MenuBar({
   setSearchWords,
   isInputFocused,
   setIsInputFocused,
-  setFontMenuselected,
-  handleTitleButtonClick,
-  handleHeadingButtonClick,
-  handleSubHeadingButtonClick,
-  handleBodyButtonClick,
-  handleMonospaceButtonClick,
+  divsContent,
+  setDivsContent,
+  selectedLine,
 }) {
   // console.log(activeNote?.checkbox);
 
@@ -75,12 +72,9 @@ function MenuBar({
                 }}
               >
                 <FontMenu
-                  setFontMenuselected={setFontMenuselected}
-                  handleTitleButtonClick={handleTitleButtonClick}
-                  handleHeadingButtonClick={handleHeadingButtonClick}
-                  handleSubHeadingButtonClick={handleSubHeadingButtonClick}
-                  handleBodyButtonClick={handleBodyButtonClick}
-                  handleMonospaceButtonClick={handleMonospaceButtonClick}
+                  divsContent={divsContent}
+                  setDivsContent={setDivsContent}
+                  selectedLine={selectedLine}
                 />
               </ol>
             )}

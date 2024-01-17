@@ -1,18 +1,156 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MdFormatBold,
   MdFormatItalic,
   MdFormatUnderlined,
 } from "react-icons/md";
 import { FaStrikethrough } from "react-icons/fa6";
-const FontMenu = ({
-  setFontMenuselected,
-  handleTitleButtonClick,
-  handleHeadingButtonClick,
-  handleSubHeadingButtonClick,
-  handleBodyButtonClick,
-  handleMonospaceButtonClick,
-}) => {
+const FontMenu = ({ divsContent, setDivsContent, selectedLine }) => {
+  const [fontMenuselected, setFontMenuselected] = useState("");
+
+  const handleTitleButtonClick = () => {
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute(
+            "style",
+            "font-size: 1.75rem; font-weight: bold; "
+          );
+          console.log(newLine);
+        }
+        return content;
+      });
+      console.log(newDivsContent);
+
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
+
+  const handleHeadingButtonClick = () => {
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute(
+            "style",
+            "font-size: 1.5rem; font-weight: bold; "
+          );
+        }
+        return content;
+      });
+
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
+
+  const handleSubHeadingButtonClick = () => {
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute("style", "font-size: 1.25rem; ");
+        }
+        return content;
+      });
+
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
+
+  const handleBodyButtonClick = () => {
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute("style", "font-size: 1rem;");
+        }
+        return content;
+      });
+
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
+
+  const handleMonospaceButtonClick = () => {
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute(
+            "style",
+            "font-family: monospace; font-size: 1rem;"
+          );
+        }
+        return content;
+      });
+
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
+
+  const handleBulletButtonClick = () => {
+  if (selectedLine !== null) {
+    const newDivsContent = divsContent.map((content, index) => {
+      if (index === selectedLine) {
+        const oldLine = document.querySelectorAll("[contentEditable]")[selectedLine];
+        
+        // Create a new list item element
+        const newLine = document.createElement("li");
+        newLine.setAttribute("contentEditable", true);
+        newLine.setAttribute("style", "display: list-item; margin-left: 20px;");
+        newLine.innerHTML = oldLine.innerHTML; // Copy the content from the old element
+
+        // Replace the old element with the new one
+        oldLine.parentNode.replaceChild(newLine, oldLine);
+        console.log(newLine);
+      }
+      return content;
+    });
+
+    setDivsContent(newDivsContent);
+    // onEditField("text", divsContent);
+  }
+};
+
+  const handleNumberedButtonClick = () => {
+  if (selectedLine !== null) {
+    const newDivsContent = divsContent.map((content, index) => {
+      if (index === selectedLine) {
+        const oldLine = document.querySelectorAll("[contentEditable]")[selectedLine];
+        
+        // Create a new list item element
+        const newLine = document.createElement("li");
+        newLine.setAttribute("contentEditable", true);
+        newLine.setAttribute(
+          "style",
+          "display: list-item; list-style-type: decimal; margin-left: 20px;"
+        );
+        newLine.innerHTML = oldLine.innerHTML; // Copy the content from the old element
+
+        // Replace the old element with the new one
+        oldLine.parentNode.replaceChild(newLine, oldLine);
+        console.log(newLine);
+      }
+      return content;
+    });
+
+    setDivsContent(newDivsContent);
+    // onEditField("text", divsContent);
+  }
+};
+
+
   return (
     <>
       <li className="dropdown-item list-hover-separate rounded-0">
@@ -41,10 +179,9 @@ const FontMenu = ({
         <hr className="dropdown-divider" />
       </li>
       <li
-        className="dropdown-item fw-bold h4 mb-0 list-hover"
+        className="dropdown-item fw-bold h3 mb-0 list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
-          // setFontMenuselected(e.target.textContent);
+          setFontMenuselected(e.target.textContent);
           handleTitleButtonClick();
         }}
       >
@@ -53,8 +190,7 @@ const FontMenu = ({
       <li
         className="dropdown-item fw-bold h5 mb-0 list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
-          // setFontMenuselected(e.target.textContent);
+          setFontMenuselected(e.target.textContent);
           handleHeadingButtonClick();
         }}
       >
@@ -63,7 +199,6 @@ const FontMenu = ({
       <li
         className="dropdown-item h6 mb-0 list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
           setFontMenuselected(e.target.textContent);
           handleSubHeadingButtonClick();
         }}
@@ -73,7 +208,6 @@ const FontMenu = ({
       <li
         className="dropdown-item list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
           handleBodyButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
@@ -83,7 +217,6 @@ const FontMenu = ({
       <li
         className="dropdown-item list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
           handleMonospaceButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
@@ -93,7 +226,7 @@ const FontMenu = ({
       <li
         className="dropdown-item list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
+          handleBulletButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
       >
@@ -102,7 +235,6 @@ const FontMenu = ({
       <li
         className="dropdown-item list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
           setFontMenuselected(e.target.textContent);
         }}
       >
@@ -111,7 +243,7 @@ const FontMenu = ({
       <li
         className="dropdown-item list-hover"
         onClick={(e) => {
-          console.log(e.target.textContent);
+          handleNumberedButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
       >

@@ -17,19 +17,12 @@ const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
       </div>
       <div className="w-100">
         <div className="text-capitalize text-black lh-base">{note.title}</div>
-        {/* <p
+        <p
           className="text-black"
           style={{ fontSize: "x-small", marginBottom: 0 }}
         >
-          {note.text && (
-            <span
-              dangerouslySetInnerHTML={{
-                __html:
-                  note.text.substr(0, 20).replace(/<br\s*\/?>/gi, " ") + "...",
-              }}
-            />
-          )}
-        </p> */}
+          {note.text && <span>{note.text.join(" ").substring(0,50)}...</span>}
+        </p>
         <p
           className="text-muted "
           style={{ fontSize: "xx-small", marginBottom: 0 }}

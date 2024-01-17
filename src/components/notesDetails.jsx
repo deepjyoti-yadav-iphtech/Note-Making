@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
 import React, { useState, useEffect } from "react";
 import MenuBar from "./menubar";
-
 import TextArea from "./TextArea";
 
 function NotesDetails({
@@ -16,103 +16,14 @@ function NotesDetails({
   const [searchWords, setSearchWords] = useState("");
   const [focusedInputIndex, setFocusedInputIndex] = useState(0);
   const [isInputFocused, setIsInputFocused] = useState(false);
-  const [fontMenuselected, setFontMenuselected] = useState("");
   const [selectedLine, setSelectedLine] = useState(null);
   const [divsContent, setDivsContent] = useState([""]);
- 
+
   useEffect(() => {
     if (activeNote && activeNote.text) {
       setDivsContent(activeNote.text);
     }
   }, [activeNote?.text]);
-
-  const handleTitleButtonClick = () => {
-    if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
-        if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "font-size: 1.5rem; font-weight: bold; "
-          );
-        }
-        return content;
-      });
-
-      setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
-    }
-  };
-  const handleHeadingButtonClick = () => {
-    if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
-        if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "font-size: 1.25rem; font-weight: bold; "
-          );
-        }
-        return content;
-      });
-
-      setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
-    }
-  };
-  const handleSubHeadingButtonClick = () => {
-    if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
-        if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "font-size: 1rem; "
-          );
-        }
-        return content;
-      });
-
-      setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
-    }
-  };
-  const handleBodyButtonClick = () => {
-    if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
-        if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "font-size: 0.875rem;"
-          );
-        }
-        return content;
-      });
-
-      setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
-    }
-  };
-  const handleMonospaceButtonClick = () => {
-    if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
-        if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute("style", "font-family: monospace; font-size: 0.875rem;");
-        }
-        return content;
-      });
-
-      setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
-    }
-  };
 
   const onEditField = (field, value) => {
     onUpdateNote({
@@ -203,12 +114,9 @@ function NotesDetails({
         setSearchWords={setSearchWords}
         isInputFocused={isInputFocused}
         setIsInputFocused={setIsInputFocused}
-        setFontMenuselected={setFontMenuselected}
-        handleTitleButtonClick={handleTitleButtonClick}
-        handleHeadingButtonClick={handleHeadingButtonClick}
-        handleSubHeadingButtonClick={handleSubHeadingButtonClick}
-        handleBodyButtonClick={handleBodyButtonClick}
-        handleMonospaceButtonClick={handleMonospaceButtonClick}
+        divsContent={divsContent}
+        setDivsContent={setDivsContent}
+        selectedLine={selectedLine}
       />
 
       {activeNote ? (
@@ -251,6 +159,7 @@ function NotesDetails({
             divsContent={divsContent}
             setDivsContent={setDivsContent}
             setSelectedLine={setSelectedLine}
+            selectedLine={selectedLine}
           />
           {/* <TextEditor
             onEditField={onEditField}
