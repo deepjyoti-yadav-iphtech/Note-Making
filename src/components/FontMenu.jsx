@@ -5,7 +5,14 @@ import {
   MdFormatUnderlined,
 } from "react-icons/md";
 import { FaStrikethrough } from "react-icons/fa6";
-const FontMenu = ({ setFontMenuselected }) => {
+const FontMenu = ({
+  setFontMenuselected,
+  handleTitleButtonClick,
+  handleHeadingButtonClick,
+  handleSubHeadingButtonClick,
+  handleBodyButtonClick,
+  handleMonospaceButtonClick,
+}) => {
   return (
     <>
       <li className="dropdown-item list-hover-separate rounded-0">
@@ -15,7 +22,7 @@ const FontMenu = ({ setFontMenuselected }) => {
             backgroundColor: "rgb(255 251 245)",
           }}
         >
-          <li className=" dropdown-item li-sub rounded-1" >
+          <li className=" dropdown-item li-sub rounded-1">
             <MdFormatBold style={{ height: "25px", width: "25px" }} />
           </li>
           <li className=" dropdown-item li-sub rounded-1">
@@ -37,16 +44,18 @@ const FontMenu = ({ setFontMenuselected }) => {
         className="dropdown-item fw-bold h4 mb-0 list-hover"
         onClick={(e) => {
           console.log(e.target.textContent);
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
+          handleTitleButtonClick();
         }}
       >
         Title
       </li>
       <li
-        className="dropdown-item h5 mb-0 list-hover"
+        className="dropdown-item fw-bold h5 mb-0 list-hover"
         onClick={(e) => {
           console.log(e.target.textContent);
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
+          handleHeadingButtonClick();
         }}
       >
         Heading
@@ -56,6 +65,7 @@ const FontMenu = ({ setFontMenuselected }) => {
         onClick={(e) => {
           console.log(e.target.textContent);
           setFontMenuselected(e.target.textContent);
+          handleSubHeadingButtonClick();
         }}
       >
         SubHeading
@@ -64,6 +74,7 @@ const FontMenu = ({ setFontMenuselected }) => {
         className="dropdown-item list-hover"
         onClick={(e) => {
           console.log(e.target.textContent);
+          handleBodyButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
       >
@@ -73,6 +84,7 @@ const FontMenu = ({ setFontMenuselected }) => {
         className="dropdown-item list-hover"
         onClick={(e) => {
           console.log(e.target.textContent);
+          handleMonospaceButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
       >

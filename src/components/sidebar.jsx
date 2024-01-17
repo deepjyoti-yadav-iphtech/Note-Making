@@ -51,6 +51,22 @@ function Sidebar({ onAddNotes, notes, setActiveNote, onDeleteNote }) {
     };
   }, [sortDropdownRef]);
 
+  function generateRandomWord(length) {
+    const alphabet = "abcdefghijklmnopqrstuvwxyz";
+    let randomWord = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * alphabet.length);
+      randomWord += alphabet[randomIndex];
+    }
+
+    return randomWord;
+  }
+
+  // Example usage with a word length of 8
+  const randomWord = generateRandomWord(5);
+  // console.log(randomWord);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title) return;
@@ -58,11 +74,11 @@ function Sidebar({ onAddNotes, notes, setActiveNote, onDeleteNote }) {
     const newNote = {
       title,
       id: Date.now(),
-      text: "",
+      text: [""],
       checkbox: [{ text: "", checked: false }],
       lastModified: Date.now(),
       checkBoxBar: "",
-      textEditor: Math.floor(Math.random() * 1000000),
+      textEditor: randomWord,
     };
     // setNotes((notes) => [...notes, newNote]);
     onAddNotes(newNote);

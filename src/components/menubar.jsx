@@ -13,6 +13,11 @@ function MenuBar({
   isInputFocused,
   setIsInputFocused,
   setFontMenuselected,
+  handleTitleButtonClick,
+  handleHeadingButtonClick,
+  handleSubHeadingButtonClick,
+  handleBodyButtonClick,
+  handleMonospaceButtonClick,
 }) {
   // console.log(activeNote?.checkbox);
 
@@ -69,7 +74,14 @@ function MenuBar({
                   backgroundColor: "rgb(255 251 245)",
                 }}
               >
-                <FontMenu setFontMenuselected={setFontMenuselected} />
+                <FontMenu
+                  setFontMenuselected={setFontMenuselected}
+                  handleTitleButtonClick={handleTitleButtonClick}
+                  handleHeadingButtonClick={handleHeadingButtonClick}
+                  handleSubHeadingButtonClick={handleSubHeadingButtonClick}
+                  handleBodyButtonClick={handleBodyButtonClick}
+                  handleMonospaceButtonClick={handleMonospaceButtonClick}
+                />
               </ol>
             )}
           </div>
