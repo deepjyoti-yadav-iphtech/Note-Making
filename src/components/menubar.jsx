@@ -15,6 +15,7 @@ function MenuBar({
   divsContent,
   setDivsContent,
   selectedLine,
+  selectedText
 }) {
   // console.log(activeNote?.checkbox);
 
@@ -75,6 +76,7 @@ function MenuBar({
                   divsContent={divsContent}
                   setDivsContent={setDivsContent}
                   selectedLine={selectedLine}
+                  selectedText={selectedText}
                 />
               </ol>
             )}

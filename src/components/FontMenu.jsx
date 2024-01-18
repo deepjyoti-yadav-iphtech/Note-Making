@@ -5,7 +5,12 @@ import {
   MdFormatUnderlined,
 } from "react-icons/md";
 import { FaStrikethrough } from "react-icons/fa6";
-const FontMenu = ({ divsContent, setDivsContent, selectedLine }) => {
+const FontMenu = ({
+  divsContent,
+  setDivsContent,
+  selectedLine,
+  selectedText,
+}) => {
   const [fontMenuselected, setFontMenuselected] = useState("");
 
   const handleTitleButtonClick = () => {
@@ -100,56 +105,44 @@ const FontMenu = ({ divsContent, setDivsContent, selectedLine }) => {
   };
 
   const handleBulletButtonClick = () => {
-  if (selectedLine !== null) {
-    const newDivsContent = divsContent.map((content, index) => {
-      if (index === selectedLine) {
-        const oldLine = document.querySelectorAll("[contentEditable]")[selectedLine];
-        
-        // Create a new list item element
-        const newLine = document.createElement("li");
-        newLine.setAttribute("contentEditable", true);
-        newLine.setAttribute("style", "display: list-item; margin-left: 20px;");
-        newLine.innerHTML = oldLine.innerHTML; // Copy the content from the old element
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute(
+            "style",
+            "display: list-item; margin-left: 20px;"
+          );
+          console.log(newLine);
+        }
+        return content;
+      });
 
-        // Replace the old element with the new one
-        oldLine.parentNode.replaceChild(newLine, oldLine);
-        console.log(newLine);
-      }
-      return content;
-    });
-
-    setDivsContent(newDivsContent);
-    // onEditField("text", divsContent);
-  }
-};
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
 
   const handleNumberedButtonClick = () => {
-  if (selectedLine !== null) {
-    const newDivsContent = divsContent.map((content, index) => {
-      if (index === selectedLine) {
-        const oldLine = document.querySelectorAll("[contentEditable]")[selectedLine];
-        
-        // Create a new list item element
-        const newLine = document.createElement("li");
-        newLine.setAttribute("contentEditable", true);
-        newLine.setAttribute(
-          "style",
-          "display: list-item; list-style-type: decimal; margin-left: 20px;"
-        );
-        newLine.innerHTML = oldLine.innerHTML; // Copy the content from the old element
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute(
+            "style",
+            "display: list-item; list-style-type: decimal; margin-left: 20px;"
+          );
+          console.log(newLine);
+        }
+        return content;
+      });
 
-        // Replace the old element with the new one
-        oldLine.parentNode.replaceChild(newLine, oldLine);
-        console.log(newLine);
-      }
-      return content;
-    });
-
-    setDivsContent(newDivsContent);
-    // onEditField("text", divsContent);
-  }
-};
-
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
 
   return (
     <>

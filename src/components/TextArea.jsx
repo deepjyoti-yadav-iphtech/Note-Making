@@ -5,7 +5,9 @@ const TextArea = ({
   divsContent,
   setDivsContent,
   setSelectedLine,
-  selectedLine
+  selectedLine,
+  selectedText,
+  setSelectedText,
 }) => {
   const handleKeyPress = (event, index) => {
     if (event.key === "Enter") {
@@ -44,7 +46,19 @@ const TextArea = ({
     setDivsContent(newDivsContent);
   };
 
-
+  const applyBold = () => {
+    // Check if text is selected
+    if ((selectedLine !== null && selectedText) !== "") {
+      // Create a new array to avoid mutating the state directly
+      const updatedContent = [...divsContent];
+      // Apply bold to the selected text in the array
+      console.log(updatedContent);
+      updatedContent[selectedLine] = <strong>{selectedText}</strong>;
+      // Update state with the modified array
+      // setDivsContent(updatedContent);
+    }
+  };
+  console.log(selectedText);
   return (
     <>
       <div style={{ borderColor: "red" }}>
@@ -52,7 +66,11 @@ const TextArea = ({
           <div
             key={index}
             contentEditable={true}
-            onMouseUp={() => setSelectedLine(index)}
+            onMouseUp={() => {
+              setSelectedLine(index);
+              // console.log(`Selected text: ${window.getSelection().toString()}`);
+              setSelectedText(window.getSelection().toString());
+            }}
             onKeyDown={(event) => handleKeyPress(event, index)}
             onInput={(event) => handleContentChange(event, index)}
             suppressContentEditableWarning={true}
@@ -60,6 +78,7 @@ const TextArea = ({
             {content}
           </div>
         ))}
+        <button onClick={applyBold}>Bold</button>
       </div>
     </>
   );

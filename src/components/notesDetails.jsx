@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import MenuBar from "./menubar";
 import TextArea from "./TextArea";
+import Highlighter from "react-highlight-words";
 
 function NotesDetails({
   activeNote,
@@ -18,6 +19,7 @@ function NotesDetails({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedLine, setSelectedLine] = useState(null);
   const [divsContent, setDivsContent] = useState([""]);
+  const [selectedText, setSelectedText] = useState("")
 
   useEffect(() => {
     if (activeNote && activeNote.text) {
@@ -103,6 +105,8 @@ function NotesDetails({
     );
   }, [activeNote]);
 
+  // console.log(activeNote?.text.join(""));
+
   return (
     <div id="section2">
       <MenuBar
@@ -117,6 +121,7 @@ function NotesDetails({
         divsContent={divsContent}
         setDivsContent={setDivsContent}
         selectedLine={selectedLine}
+        selectedText={selectedText}
       />
 
       {activeNote ? (
@@ -153,14 +158,25 @@ function NotesDetails({
               ))}
             </ul>
           )}
-          <TextArea
-            onEditField={onEditField}
-            activeNote={activeNote}
-            divsContent={divsContent}
-            setDivsContent={setDivsContent}
-            setSelectedLine={setSelectedLine}
-            selectedLine={selectedLine}
-          />
+          {searchWords && isInputFocused ? (
+            <Highlighter
+              highlightClassName="YourHighlightClass"
+              searchWords={[`${searchWords}`]}
+              autoEscape={true}
+              textToHighlight={activeNote.text.join("")}
+            />
+          ) : (
+            <TextArea
+              onEditField={onEditField}
+              activeNote={activeNote}
+              divsContent={divsContent}
+              setDivsContent={setDivsContent}
+              setSelectedLine={setSelectedLine}
+              selectedLine={selectedLine}
+              selectedText={selectedText}
+              setSelectedText={setSelectedText}
+            />
+          )}
           {/* <TextEditor
             onEditField={onEditField}
             activeNote={activeNote}
