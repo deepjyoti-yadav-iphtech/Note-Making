@@ -86,8 +86,6 @@ function App() {
             notes={notes}
             setActiveNote={setActiveNote}
             onDeleteNote={onDeleteNote}
-            checkBoxBar={checkBoxBar}
-            setCheckBoxBar={setCheckBoxBar}
           />
         </div>
         <div className="col-md-8 col-xxl-10" id="section2">

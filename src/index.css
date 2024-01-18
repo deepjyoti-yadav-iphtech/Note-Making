@@ -50,6 +50,17 @@
 .li-sub:hover{
     background-color: #fbf1dd;
 }
+
+.font-button:hover{
+    background-color: #fbf1dd;
+    border-radius: 1px;
+}
+
+.font-button{
+    background-color: rgb(255 251 245);
+}
+
+
 mark{
     padding: 0;
 }

@@ -19,7 +19,6 @@ function NotesDetails({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedLine, setSelectedLine] = useState(null);
   const [divsContent, setDivsContent] = useState([""]);
-  const [selectedText, setSelectedText] = useState("")
 
   useEffect(() => {
     if (activeNote && activeNote.text) {
@@ -109,128 +108,74 @@ function NotesDetails({
 
   return (
     <div id="section2">
-      <MenuBar
-        checkBoxBar={checkBoxBar}
-        setCheckBoxBar={setCheckBoxBar}
-        onUpdateNote={onUpdateNote}
-        activeNote={activeNote}
-        searchWords={searchWords}
-        setSearchWords={setSearchWords}
-        isInputFocused={isInputFocused}
-        setIsInputFocused={setIsInputFocused}
-        divsContent={divsContent}
-        setDivsContent={setDivsContent}
-        selectedLine={selectedLine}
-        selectedText={selectedText}
-      />
-
       {activeNote ? (
-        <div className="p-3">
-          <h3 className="text-black">{activeNote.title}</h3>
-          {activeNote.checkBoxBar && (
-            <ul>
-              {checklist.map((item, index) => (
-                <li key={index} className="d-flex align-items-center">
-                  <input
-                    type="checkbox"
-                    checked={item.checked}
-                    onChange={() => handleCheckboxChange(index)}
-                  />
-                  <input
-                    id={`input-${index}`}
-                    className="w-100"
-                    style={{
-                      border: "none",
-                      outline: "none",
-                      marginLeft: "5px",
-                    }}
-                    type="text"
-                    value={item.text}
-                    onChange={(e) => {
-                      const updatedChecklist = [...checklist];
-                      updatedChecklist[index].text = e.target.value;
-                      setChecklist(updatedChecklist);
-                      onEditField("checkbox", updatedChecklist);
-                    }}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-          {searchWords && isInputFocused ? (
-            <Highlighter
-              highlightClassName="YourHighlightClass"
-              searchWords={[`${searchWords}`]}
-              autoEscape={true}
-              textToHighlight={activeNote.text.join("")}
-            />
-          ) : (
-            <TextArea
-              onEditField={onEditField}
-              activeNote={activeNote}
-              divsContent={divsContent}
-              setDivsContent={setDivsContent}
-              setSelectedLine={setSelectedLine}
-              selectedLine={selectedLine}
-              selectedText={selectedText}
-              setSelectedText={setSelectedText}
-            />
-          )}
-          {/* <TextEditor
-            onEditField={onEditField}
+        <>
+          <MenuBar
+            checkBoxBar={checkBoxBar}
+            setCheckBoxBar={setCheckBoxBar}
+            onUpdateNote={onUpdateNote}
             activeNote={activeNote}
-            fontMenuselected={fontMenuselected}
-          /> */}
-          {/* {searchWords && isInputFocused ? (
-            <Highlighter
-              highlightClassName="YourHighlightClass"
-              searchWords={[`${searchWords}`]}
-              autoEscape={true}
-              textToHighlight={activeNote.text}
-            />
-          ) : (
-            <div className="form-outline">
-              <textarea
-                rows={10}
-                className="form-control text-black "
-                id="textAreaExample"
-                value={activeNote.text}
-                onChange={(e) => {
-                  handleTextAreaInput(e);
-                  onEditField("text", e.target.value);
-                  // const newText = e.target.value;
+            searchWords={searchWords}
+            setSearchWords={setSearchWords}
+            isInputFocused={isInputFocused}
+            setIsInputFocused={setIsInputFocused}
+            divsContent={divsContent}
+            setDivsContent={setDivsContent}
+            selectedLine={selectedLine}
+          />
 
-                  // // Check for newlines
-                  // const lines = newText.split("\n");
-
-                  // // Apply different font sizes based on the selected font menu
-                  // const formattedText = lines
-                  //   .map((line, index) => {
-                  //     if (fontMenuselected === "Title" && index === 0) {
-                  //       return `<span style="font-size: 1.5rem">${line}</span>`;
-                  //     } else if (fontMenuselected === "Heading") {
-                  //       return `<span style="font-size: 1.25rem">${line}</span>`;
-                  //     } else {
-                  //       return line;
-                  //     }
-                  //   })
-                  //   .join("\n");
-
-                  // onEditField("text", formattedText);
-                }}
-                style={{
-                  fontSize:
-                    fontMenuselected === "Title"
-                      ? "1.5rem "
-                      : fontMenuselected === "Heading"
-                      ? "1.25rem"
-                      : "",
-                }}
+          <div className="p-3">
+            <h3 className="text-black">{activeNote.title}</h3>
+            {activeNote.checkBoxBar && (
+              <ul>
+                {checklist.map((item, index) => (
+                  <li key={index} className="d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      checked={item.checked}
+                      onChange={() => handleCheckboxChange(index)}
+                    />
+                    <input
+                      id={`input-${index}`}
+                      className="w-100"
+                      style={{
+                        border: "none",
+                        outline: "none",
+                        marginLeft: "5px",
+                      }}
+                      type="text"
+                      value={item.text}
+                      onChange={(e) => {
+                        const updatedChecklist = [...checklist];
+                        updatedChecklist[index].text = e.target.value;
+                        setChecklist(updatedChecklist);
+                        onEditField("checkbox", updatedChecklist);
+                      }}
+                      onKeyDown={(e) => handleKeyDown(e, index)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+            {searchWords && isInputFocused ? (
+              <Highlighter
+                highlightClassName="YourHighlightClass"
+                searchWords={[`${searchWords}`]}
+                autoEscape={true}
+                textToHighlight={activeNote.text.join("")}
               />
-            </div>
-          )} */}
-        </div>
+            ) : (
+              <TextArea
+                onEditField={onEditField}
+                activeNote={activeNote}
+                divsContent={divsContent}
+                setDivsContent={setDivsContent}
+                setSelectedLine={setSelectedLine}
+                selectedLine={selectedLine}
+              />
+            )}
+          </div>
+        </>
       ) : (
         <div className="p-3">No Active Note</div>
       )}

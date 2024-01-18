@@ -1,18 +1,8 @@
 import React from "react";
 
-const TextArea = ({
-  onEditField,
-  divsContent,
-  setDivsContent,
-  setSelectedLine,
-  selectedLine,
-  selectedText,
-  setSelectedText,
-}) => {
+const TextArea = ({ divsContent, setDivsContent, setSelectedLine }) => {
   const handleKeyPress = (event, index) => {
     if (event.key === "Enter") {
-      // Create a new array with the previous content and an empty string for the new div
-      // Create a new array with the previous content and an empty string for the new div
       const newDivsContent = divsContent.reduce((acc, content, i) => {
         if (i === index) {
           return [...acc, content, ""];
@@ -35,7 +25,7 @@ const TextArea = ({
         sel.addRange(range);
       });
 
-      onEditField("text", newDivsContent);
+      // onEditField("text", newDivsContent);
     }
   };
 
@@ -43,22 +33,10 @@ const TextArea = ({
     // Update the content of the corresponding div in the array
     const newDivsContent = [...divsContent];
     newDivsContent[index] = event.target.textContent;
+    console.log(newDivsContent[index]);
     setDivsContent(newDivsContent);
   };
 
-  const applyBold = () => {
-    // Check if text is selected
-    if ((selectedLine !== null && selectedText) !== "") {
-      // Create a new array to avoid mutating the state directly
-      const updatedContent = [...divsContent];
-      // Apply bold to the selected text in the array
-      console.log(updatedContent);
-      updatedContent[selectedLine] = <strong>{selectedText}</strong>;
-      // Update state with the modified array
-      // setDivsContent(updatedContent);
-    }
-  };
-  console.log(selectedText);
   return (
     <>
       <div style={{ borderColor: "red" }}>
@@ -66,19 +44,14 @@ const TextArea = ({
           <div
             key={index}
             contentEditable={true}
-            onMouseUp={() => {
-              setSelectedLine(index);
-              // console.log(`Selected text: ${window.getSelection().toString()}`);
-              setSelectedText(window.getSelection().toString());
-            }}
+            onMouseUp={() => setSelectedLine(index)}
             onKeyDown={(event) => handleKeyPress(event, index)}
-            onInput={(event) => handleContentChange(event, index)}
+            onBlur={(event) => handleContentChange(event, index)}
             suppressContentEditableWarning={true}
           >
             {content}
           </div>
         ))}
-        <button onClick={applyBold}>Bold</button>
       </div>
     </>
   );

@@ -15,7 +15,6 @@ function MenuBar({
   divsContent,
   setDivsContent,
   selectedLine,
-  selectedText
 }) {
   // console.log(activeNote?.checkbox);
 
@@ -37,10 +36,10 @@ function MenuBar({
     };
   }, [fontListRef]);
 
-  const onEditField = () => {
+  const onEditField = (field, value) => {
     onUpdateNote({
       ...activeNote,
-      checkBoxBar: true,
+      [field]: value,
     });
   };
 
@@ -76,7 +75,6 @@ function MenuBar({
                   divsContent={divsContent}
                   setDivsContent={setDivsContent}
                   selectedLine={selectedLine}
-                  selectedText={selectedText}
                 />
               </ol>
             )}
@@ -84,7 +82,7 @@ function MenuBar({
           <button
             className="p-1 border-0 btn shadow-0 btn-hover"
             onClick={() => {
-              onEditField();
+              onEditField("checkBoxBar",true);
               setCheckBoxBar(true);
             }}
           >

@@ -5,12 +5,7 @@ import {
   MdFormatUnderlined,
 } from "react-icons/md";
 import { FaStrikethrough } from "react-icons/fa6";
-const FontMenu = ({
-  divsContent,
-  setDivsContent,
-  selectedLine,
-  selectedText,
-}) => {
+const FontMenu = ({ divsContent, setDivsContent, selectedLine }) => {
   const [fontMenuselected, setFontMenuselected] = useState("");
 
   const handleTitleButtonClick = () => {
@@ -124,6 +119,26 @@ const FontMenu = ({
     }
   };
 
+  const handleDashedButtonClick = () => {
+    if (selectedLine !== null) {
+      const newDivsContent = divsContent.map((content, index) => {
+        if (index === selectedLine) {
+          const newLine =
+            document.querySelectorAll("[contentEditable]")[selectedLine];
+          newLine.setAttribute(
+            "style",
+            "list-style-type: dashed; margin-left: 20px;"
+          );
+          console.log(newLine);
+        }
+        return content;
+      });
+
+      setDivsContent(newDivsContent);
+      // onEditField("text", divsContent);
+    }
+  };
+
   const handleNumberedButtonClick = () => {
     if (selectedLine !== null) {
       const newDivsContent = divsContent.map((content, index) => {
@@ -144,6 +159,19 @@ const FontMenu = ({
     }
   };
 
+  function bold(tags) {
+    document.execCommand("bold");
+  }
+  function italic(tags) {
+    document.execCommand("italic");
+  }
+  function underline(tags) {
+    document.execCommand("underline");
+  }
+  function strike(tags) {
+    document.execCommand("strikeThrough");
+  }
+
   return (
     <>
       <li className="dropdown-item list-hover-separate rounded-0">
@@ -154,16 +182,48 @@ const FontMenu = ({
           }}
         >
           <li className=" dropdown-item li-sub rounded-1">
-            <MdFormatBold style={{ height: "25px", width: "25px" }} />
+            <button
+              className="border-0 font-button"
+              style={{ borderRadius: "2px" }}
+              onClick={() => {
+                bold("b");
+              }}
+            >
+              <MdFormatBold style={{ height: "25px", width: "25px" }} />
+            </button>
           </li>
           <li className=" dropdown-item li-sub rounded-1">
-            <MdFormatItalic style={{ height: "25px", width: "25px" }} />
+            <button
+              className="border-0 font-button"
+              style={{ borderRadius: "2px" }}
+              onClick={() => {
+                italic("b");
+              }}
+            >
+              <MdFormatItalic style={{ height: "25px", width: "25px" }} />
+            </button>
           </li>
           <li className=" dropdown-item li-sub rounded-1">
-            <MdFormatUnderlined style={{ height: "25px", width: "25px" }} />
+            <button
+              className="border-0 font-button"
+              style={{ borderRadius: "2px" }}
+              onClick={() => {
+                underline("b");
+              }}
+            >
+              <MdFormatUnderlined style={{ height: "25px", width: "25px" }} />
+            </button>
           </li>
           <li className=" dropdown-item li-sub rounded-1">
-            <FaStrikethrough style={{ height: "20px", width: "20px" }} />
+            <button
+              className="border-0 font-button"
+              style={{ borderRadius: "2px" }}
+              onClick={() => {
+                strike("b");
+              }}
+            >
+              <FaStrikethrough style={{ height: "20px", width: "20px" }} />
+            </button>
           </li>
         </ol>
       </li>
@@ -228,6 +288,7 @@ const FontMenu = ({
       <li
         className="dropdown-item list-hover"
         onClick={(e) => {
+          handleDashedButtonClick();
           setFontMenuselected(e.target.textContent);
         }}
       >
