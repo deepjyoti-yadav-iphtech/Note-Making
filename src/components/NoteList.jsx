@@ -2,8 +2,10 @@ import React from "react";
 import { GrNotes } from "react-icons/gr";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { HashLink as Link } from "react-router-hash-link";
-
+import { FaLock } from "react-icons/fa";
+import { FaLockOpen } from "react-icons/fa";
 const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
+ 
   return (
     <Link
       to="#section2"
@@ -13,7 +15,22 @@ const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
       }}
     >
       <div>
-        <GrNotes style={{ color: "#ca8a04", fontWeight: "bold" }} />
+        <div>
+          <GrNotes style={{ color: "#ca8a04", fontWeight: "bold" }} />
+        </div>
+        {note?.password !== undefined && (
+          <div>
+            {note.password ? (
+              <FaLock
+                style={{ height: "12px", width: "12px", color: "black" }}
+              />
+            ) : (
+              <FaLockOpen
+                style={{ height: "12px", width: "12px", color: "black" }}
+              />
+            )}
+          </div>
+        )}
       </div>
       <div className="w-100">
         <div className="text-capitalize text-black lh-base">{note.title}</div>
@@ -21,7 +38,7 @@ const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
           className="text-black"
           style={{ fontSize: "x-small", marginBottom: 0 }}
         >
-          {note.text && <span>{note.text.join(" ").substring(0,50)}...</span>}
+          {note.text && <span>{note.text.join(" ").substring(0, 50)}...</span>}
         </p>
         <p
           className="text-muted "
@@ -30,6 +47,7 @@ const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
           Last modified on {new Date(note.lastModified).toLocaleString()}
         </p>
       </div>
+
       <div style={{ color: "#7f1d1d" }} onClick={() => onDeleteNote(note.id)}>
         <RiDeleteBin6Fill />
       </div>

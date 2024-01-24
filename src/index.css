@@ -28,8 +28,6 @@
     background-color: #fbf1dd;
    
 }
-
-
 .list-hover-separate:hover{
     background-color: rgb(255 251 245);
 }
@@ -72,10 +70,23 @@ mark{
 .text::selection{
     font-size: "1.5px";
 }
-/* textarea {
-  overflow-y: hidden;
-} */
 
 [contenteditable]:focus {
     outline: 0px solid transparent;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for the desired level of transparency */
+  backdrop-filter: blur(5px); /* Adjust the blur value for the desired blur effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Adjust the z-index to make sure it appears above your content */
+}
+
+

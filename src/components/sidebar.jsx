@@ -4,7 +4,13 @@ import { PiNotePencilFill } from "react-icons/pi";
 import NoteList from "./NoteList";
 import Sortby from "./Sortby";
 
-function Sidebar({ onAddNotes, notes, setActiveNote, onDeleteNote }) {
+function Sidebar({
+  onAddNotes,
+  notes,
+  setActiveNote,
+  onDeleteNote,
+  lockNotePassword,
+}) {
   const [addOpen, setAddOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [opensortBy, setOpenSortBy] = useState(false);
@@ -51,7 +57,6 @@ function Sidebar({ onAddNotes, notes, setActiveNote, onDeleteNote }) {
     };
   }, [sortDropdownRef]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title) return;
@@ -63,6 +68,7 @@ function Sidebar({ onAddNotes, notes, setActiveNote, onDeleteNote }) {
       checkbox: [{ text: "", checked: false }],
       lastModified: Date.now(),
       checkBoxBar: "",
+      // password:""
     };
     // setNotes((notes) => [...notes, newNote]);
     onAddNotes(newNote);
@@ -149,6 +155,7 @@ function Sidebar({ onAddNotes, notes, setActiveNote, onDeleteNote }) {
               setActiveNode={setActiveNote}
               key={note.id}
               onDeleteNote={onDeleteNote}
+              lockNotePassword={lockNotePassword}
             />
           ))}
         </div>

@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 import MenuBar from "./menubar";
 import TextArea from "./TextArea";
 import Highlighter from "react-highlight-words";
+import Locked from "./Locked";
 
 function NotesDetails({
   activeNote,
   onUpdateNote,
   checkBoxBar,
   setCheckBoxBar,
+  lockNotePassword,
 }) {
   const [checklist, setChecklist] = useState(
     activeNote ? activeNote.checkbox || [] : [{ text: "", checked: false }]
@@ -19,6 +21,35 @@ function NotesDetails({
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedLine, setSelectedLine] = useState(null);
   const [divsContent, setDivsContent] = useState([""]);
+  const [imagesByNote, setImagesByNote] = useState({});
+
+  const images = imagesByNote[activeNote?.id] || [];
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+
+    const droppedFiles = e.dataTransfer.files;
+    handleNewImages(droppedFiles);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleNewImages = (imageList) => {
+    const newImagesInfo = Array.from(imageList).map((image) => ({
+      name: image.name,
+      url: URL.createObjectURL(image),
+    }));
+
+    setImagesByNote((prevImagesByNote) => ({
+      ...prevImagesByNote,
+      [activeNote?.id]: [
+        ...(prevImagesByNote[activeNote?.id] || []),
+        ...newImagesInfo,
+      ],
+    }));
+  };
 
   useEffect(() => {
     if (activeNote && activeNote.text) {
@@ -33,13 +64,7 @@ function NotesDetails({
       lastModified: Date.now(),
     });
   };
-
-  // const handleTextAreaInput = (e) => {
-  //   setTextArea(e?.target.value);
-  //   e.target.style.height = "auto";
-  //   e.target.style.height = `${e.target.scrollHeight}px`;
-  // };
-
+  // console.log(divsContent);
   const handleCheckboxChange = (index) => {
     const updatedChecklist = [...checklist];
     updatedChecklist[index].checked = !updatedChecklist[index].checked;
@@ -108,74 +133,97 @@ function NotesDetails({
 
   return (
     <div id="section2">
-      {activeNote ? (
-        <>
-          <MenuBar
-            checkBoxBar={checkBoxBar}
-            setCheckBoxBar={setCheckBoxBar}
-            onUpdateNote={onUpdateNote}
-            activeNote={activeNote}
-            searchWords={searchWords}
-            setSearchWords={setSearchWords}
-            isInputFocused={isInputFocused}
-            setIsInputFocused={setIsInputFocused}
-            divsContent={divsContent}
-            setDivsContent={setDivsContent}
-            selectedLine={selectedLine}
-          />
+      <MenuBar
+        checkBoxBar={checkBoxBar}
+        setCheckBoxBar={setCheckBoxBar}
+        onUpdateNote={onUpdateNote}
+        activeNote={activeNote}
+        searchWords={searchWords}
+        setSearchWords={setSearchWords}
+        isInputFocused={isInputFocused}
+        setIsInputFocused={setIsInputFocused}
+        divsContent={divsContent}
+        setDivsContent={setDivsContent}
+        selectedLine={selectedLine}
+        handleNewImages={handleNewImages}
+        lockNotePassword={lockNotePassword}
+      />
 
-          <div className="p-3">
-            <h3 className="text-black">{activeNote.title}</h3>
-            {activeNote.checkBoxBar && (
-              <ul>
-                {checklist.map((item, index) => (
-                  <li key={index} className="d-flex align-items-center">
-                    <input
-                      type="checkbox"
-                      checked={item.checked}
-                      onChange={() => handleCheckboxChange(index)}
-                    />
-                    <input
-                      id={`input-${index}`}
-                      className="w-100"
-                      style={{
-                        border: "none",
-                        outline: "none",
-                        marginLeft: "5px",
-                      }}
-                      type="text"
-                      value={item.text}
-                      onChange={(e) => {
-                        const updatedChecklist = [...checklist];
-                        updatedChecklist[index].text = e.target.value;
-                        setChecklist(updatedChecklist);
-                        onEditField("checkbox", updatedChecklist);
-                      }}
-                      onKeyDown={(e) => handleKeyDown(e, index)}
-                    />
-                  </li>
+      {activeNote ? (
+        activeNote.password ? (
+          <Locked
+            lockNotePassword={lockNotePassword}
+            onEditField={onEditField}
+          />
+        ) : (
+          <>
+            <div className="p-3">
+              <h3 className="text-black">{activeNote.title}</h3>
+              {activeNote.checkBoxBar && (
+                <ul>
+                  {checklist.map((item, index) => (
+                    <li key={index} className="d-flex align-items-center">
+                      <input
+                        type="checkbox"
+                        checked={item.checked}
+                        onChange={() => handleCheckboxChange(index)}
+                      />
+                      <input
+                        id={`input-${index}`}
+                        className="w-100"
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          marginLeft: "5px",
+                        }}
+                        type="text"
+                        value={item.text}
+                        onChange={(e) => {
+                          const updatedChecklist = [...checklist];
+                          updatedChecklist[index].text = e.target.value;
+                          setChecklist(updatedChecklist);
+                          onEditField("checkbox", updatedChecklist);
+                        }}
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {searchWords && isInputFocused ? (
+                <Highlighter
+                  highlightClassName="YourHighlightClass"
+                  searchWords={[`${searchWords}`]}
+                  autoEscape={true}
+                  textToHighlight={activeNote.text.join("")}
+                />
+              ) : (
+                <TextArea
+                  onEditField={onEditField}
+                  activeNote={activeNote}
+                  divsContent={divsContent}
+                  setDivsContent={setDivsContent}
+                  setSelectedLine={setSelectedLine}
+                  selectedLine={selectedLine}
+                />
+              )}
+              <div
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                style={{
+                  border: "2px dashed #ccc",
+                  padding: "20px",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+              >
+                {images.map((img, index) => (
+                  <img key={index} src={img.url} alt={img.name} />
                 ))}
-              </ul>
-            )}
-            {searchWords && isInputFocused ? (
-              <Highlighter
-                highlightClassName="YourHighlightClass"
-                searchWords={[`${searchWords}`]}
-                autoEscape={true}
-                textToHighlight={activeNote.text.join("")}
-              />
-            ) : (
-              <TextArea
-                onEditField={onEditField}
-                activeNote={activeNote}
-                divsContent={divsContent}
-                setDivsContent={setDivsContent}
-                setSelectedLine={setSelectedLine}
-                selectedLine={selectedLine}
-              />
-            )}
-          </div>
-        </>
+              </div>
+            </div>
+          </>
+        )
       ) : (
         <div className="p-3">No Active Note</div>
       )}

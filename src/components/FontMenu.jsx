@@ -5,7 +5,13 @@ import {
   MdFormatUnderlined,
 } from "react-icons/md";
 import { FaStrikethrough } from "react-icons/fa6";
-const FontMenu = ({ divsContent, setDivsContent, selectedLine }) => {
+const FontMenu = ({
+  activeNote,
+  divsContent,
+  setDivsContent,
+  selectedLine,
+  onEditField,
+}) => {
   const [fontMenuselected, setFontMenuselected] = useState("");
 
   const handleTitleButtonClick = () => {
@@ -16,25 +22,32 @@ const FontMenu = ({ divsContent, setDivsContent, selectedLine }) => {
             document.querySelectorAll("[contentEditable]")[selectedLine];
           newLine.setAttribute(
             "style",
-            "font-size: 1.75rem; font-weight: bold; "
+            "font-size: 1.75rem; font-weight: bold;"
           );
-          console.log(newLine);
         }
         return content;
       });
-      console.log(newDivsContent);
-
-      setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
+      newDivsContent.map((content,index)=>{
+        if (index === selectedLine) {
+          return setDivsContent(content.props?.children)
+        }
+        return setDivsContent(newDivsContent);
+      })
+      // console.log(newDivsContent[0].props.children);
     }
   };
+  
+
+  
+  // onEditField("text", newDivsContent);
 
   const handleHeadingButtonClick = () => {
     if (selectedLine !== null) {
       const newDivsContent = divsContent.map((content, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
+          const newLine = document.getElementById(
+            `${activeNote?.title}-${selectedLine}`
+          );
           newLine.setAttribute(
             "style",
             "font-size: 1.5rem; font-weight: bold; "

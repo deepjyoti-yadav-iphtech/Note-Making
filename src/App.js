@@ -12,6 +12,9 @@ function App() {
   const [undoStack, setUndoStack] = useState([]);
   const undoStackRef = useRef(undoStack);
 
+  const lockNotePassword = localStorage.getItem("Password");
+  // console.log(lockNotePassword);
+  
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
@@ -86,6 +89,7 @@ function App() {
             notes={notes}
             setActiveNote={setActiveNote}
             onDeleteNote={onDeleteNote}
+            lockNotePassword={lockNotePassword}
           />
         </div>
         <div className="col-md-8 col-xxl-10" id="section2">
@@ -94,6 +98,7 @@ function App() {
             onUpdateNote={onUpdateNote}
             checkBoxBar={checkBoxBar}
             setCheckBoxBar={setCheckBoxBar}
+            lockNotePassword={lockNotePassword}
           />
         </div>
       </div>
