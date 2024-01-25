@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
 import React, { useState, useEffect } from "react";
@@ -5,6 +6,7 @@ import MenuBar from "./menubar";
 import TextArea from "./TextArea";
 import Highlighter from "react-highlight-words";
 import Locked from "./Locked";
+import Table from "./Table";
 
 function NotesDetails({
   activeNote,
@@ -23,6 +25,7 @@ function NotesDetails({
   const [divsContent, setDivsContent] = useState([""]);
   const [imagesByNote, setImagesByNote] = useState({});
 
+  // console.log(link);
   const images = imagesByNote[activeNote?.id] || [];
 
   const handleDrop = (e) => {
@@ -157,12 +160,12 @@ function NotesDetails({
           />
         ) : (
           <>
-            <div className="p-3">
-              <h3 className="text-black">{activeNote.title}</h3>
+            <div className="p-3" id={`section2${activeNote.id}`}>
+              <h3 className="text-black mb-2">{activeNote.title}</h3>
               {activeNote.checkBoxBar && (
                 <ul>
                   {checklist.map((item, index) => (
-                    <li key={index} className="d-flex align-items-center">
+                    <li key={index} className="d-flex align-items-center mb-2">
                       <input
                         type="checkbox"
                         checked={item.checked}
@@ -190,6 +193,7 @@ function NotesDetails({
                   ))}
                 </ul>
               )}
+              {/* <Table /> */}
               {searchWords && isInputFocused ? (
                 <Highlighter
                   highlightClassName="YourHighlightClass"
@@ -207,12 +211,23 @@ function NotesDetails({
                   selectedLine={selectedLine}
                 />
               )}
+              {activeNote?.links !== undefined && (
+                <ul>
+                  {activeNote?.links.map((link, index) => (
+                    <li key={index} className="list-group-item">
+                      <a href={link}>{link}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
               <div
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 style={{
-                  border: "2px dashed #ccc",
-                  padding: "20px",
+                  // border: "2px dashed #ccc",
+                  height: "1024px",
+                  // padding: "20px",
                   textAlign: "center",
                   cursor: "pointer",
                 }}

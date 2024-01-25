@@ -8,7 +8,7 @@ const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
  
   return (
     <Link
-      to="#section2"
+      to={`#section${note.id}`}
       className="p-2 list-group-item list-group-item-action px-3 border-0 rounded-3 mb-2 list-group-item-warning d-flex align-items-start justify-content-between gap-2"
       onClick={() => {
         setActiveNode(note.id);

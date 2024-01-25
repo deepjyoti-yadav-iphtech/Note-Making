@@ -68,7 +68,8 @@ function Sidebar({
       checkbox: [{ text: "", checked: false }],
       lastModified: Date.now(),
       checkBoxBar: "",
-      // password:""
+      // password:"",
+    
     };
     // setNotes((notes) => [...notes, newNote]);
     onAddNotes(newNote);
@@ -77,7 +78,7 @@ function Sidebar({
   };
 
   return (
-    <div className="vh-100">
+    <div className="vh-100 position-sticky top-0">
       <div className="navbar shadow-3">
         <div className="container-fluid ">
           <div className="d-flex align-items-center gap-1 ">

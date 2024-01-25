@@ -24,7 +24,10 @@ const Modal = ({ setShowLockModal, lockNotePassword, onEditField }) => {
               className="modal modal-dialog modal-dialog-centered "
               style={{ width: "500px" }}
             >
-              <div className="modal-content ">
+              <div
+                className="modal-content "
+                style={{ backgroundColor: "rgb(255 251 245)" }}
+              >
                 <form action="" onSubmit={handlePasswordSubmit}>
                   <div className="modal-body pb-0">
                     <div className="row">
@@ -65,7 +68,7 @@ const Modal = ({ setShowLockModal, lockNotePassword, onEditField }) => {
                   <div className="modal-footer border-top-0 pt-0">
                     <button
                       type="button"
-                      className="btn p-1 px-2 text-capitalize text-black p-1 px-4 fw-normal"
+                      className="btn p-1 px-2 text-capitalize text-black p-1 px-4 fw-normal bg-white"
                       data-mdb-ripple-init=""
                       data-mdb-dismiss="modal"
                       onClick={() => setShowLockModal(false)}
@@ -133,7 +136,10 @@ const Modal = ({ setShowLockModal, lockNotePassword, onEditField }) => {
             <div className="modal-overlay">
               <div>
                 <div className="modal modal-dialog modal-dialog-centered shadow-4 mw-100">
-                  <div className="modal-content ">
+                  <div
+                    className="modal-content "
+                    style={{ backgroundColor: "rgb(255 251 245)" }}
+                  >
                     <form action="">
                       <div className="modal-body pb-0">
                         <h6 id="exampleModalLabel" className="pb-2">

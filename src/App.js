@@ -13,8 +13,7 @@ function App() {
   const undoStackRef = useRef(undoStack);
 
   const lockNotePassword = localStorage.getItem("Password");
-  // console.log(lockNotePassword);
-  
+
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
@@ -76,12 +75,27 @@ function App() {
   const getActiveNote = () => {
     return notes.find(({ id }) => id === activeNote);
   };
+  // ...
+
+  useEffect(() => {
+    const storedNotes = localStorage.notes
+      ? JSON.parse(localStorage.notes)
+      : [];
+
+    const updatedNotes = storedNotes.map((note) => {
+      if (note.password !== undefined) {
+        return { ...note, password: true };
+      }
+      return note;
+    });
+    setNotes(updatedNotes);
+  }, []);
 
   return (
     <BrowserRouter>
       <div className="row g-0 ">
         <div
-          className="col-md-4 col-xxl-2"
+          className="col-md-4 col-xxl-2 "
           style={{ backgroundColor: "rgb(255 251 245)" }}
         >
           <Sidebar
@@ -92,7 +106,7 @@ function App() {
             lockNotePassword={lockNotePassword}
           />
         </div>
-        <div className="col-md-8 col-xxl-10" id="section2">
+        <div className="col-md-8 col-xxl-10" >
           <NotesDetails
             activeNote={getActiveNote()}
             onUpdateNote={onUpdateNote}
