@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Sidebar from "./components/sidebar";
+import Sidebar from "./components/Sidebar";
 import NotesDetails from "./components/notesDetails";
 import { BrowserRouter } from "react-router-dom";
 
@@ -8,7 +8,6 @@ function App() {
     localStorage.notes ? JSON.parse(localStorage.notes) : []
   );
   const [activeNote, setActiveNote] = useState(false);
-  const [checkBoxBar, setCheckBoxBar] = useState(false);
   const [undoStack, setUndoStack] = useState([]);
   const undoStackRef = useRef(undoStack);
 
@@ -37,7 +36,6 @@ function App() {
   function handleAddNotes(note) {
     setNotes((notes) => [...notes, note]);
     setActiveNote(note.id);
-    // setNumItems((num) => num + 1);
   }
 
   const onDeleteNote = (noteId) => {
@@ -75,8 +73,7 @@ function App() {
   const getActiveNote = () => {
     return notes.find(({ id }) => id === activeNote);
   };
-  // ...
-
+  
   useEffect(() => {
     const storedNotes = localStorage.notes
       ? JSON.parse(localStorage.notes)
@@ -106,12 +103,11 @@ function App() {
             lockNotePassword={lockNotePassword}
           />
         </div>
-        <div className="col-md-8 col-xxl-10" >
+        <div className="col-md-8 col-xxl-10">
           <NotesDetails
             activeNote={getActiveNote()}
+            setNotes={setNotes}
             onUpdateNote={onUpdateNote}
-            checkBoxBar={checkBoxBar}
-            setCheckBoxBar={setCheckBoxBar}
             lockNotePassword={lockNotePassword}
           />
         </div>

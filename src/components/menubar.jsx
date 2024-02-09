@@ -25,12 +25,12 @@ function MenuBar({
   setSelectedLine,
   handleNewImages,
   lockNotePassword,
+  setNotes,
 }) {
   // console.log(activeNote?.checkbox);
 
   // console.log(searchWords);
   const [showFontList, setShowFontList] = useState(false);
-  const [showImage, setShowImage] = useState(false);
   const [showLock, setShowLock] = useState(false);
   const [showLockModal, setShowLockModal] = useState(false);
   const [showLinkModal, setShowLinkModal] = useState(false);
@@ -67,20 +67,6 @@ function MenuBar({
     };
   }, [lockRef]);
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (imageRef.current && !imageRef.current.contains(event.target)) {
-  //       setShowImage(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, [imageRef]);
-
   const onEditField = (field, value) => {
     if (field === "password" && value === false) {
       const updatedNote = { ...activeNote };
@@ -96,7 +82,6 @@ function MenuBar({
 
   const handleImageUpload = () => {
     imageInputRef.current.click();
-    setShowImage(false);
   };
 
   const handleImageChange = (e) => {
@@ -108,21 +93,27 @@ function MenuBar({
     <>
       <nav
         className="navbar shadow-3 sticky-top"
-        style={{ backgroundColor: "rgb(255 251 245)", padding: "0.62rem" }}
+        style={{
+          backgroundColor: "rgb(255 251 245)",
+          padding: "0.62rem",
+          zIndex: "999",
+        }}
       >
-        <div className="container-fluid ">
+        <div className="container-fluid flex-nowrap">
           {/* <a className="navbar-brand">Menubar</a> */}
-          <div className="d-flex gap-3 " style={{ marginLeft: "40%" }}>
+          <div className="d-flex gap-sm-3 font-icon-div">
             <div className="dropdown">
               <button
                 className="p-1 border-0 btn shadow-0 btn-hover"
+                title="Choose a style to apply to text"
                 data-mdb-auto-close="outside"
                 onClick={() => {
                   // console.log(opensortBy);
-                  setShowImage(false);
+
                   setShowFontList(!showFontList);
                 }}
                 ref={fontListRef}
+                disabled={!activeNote}
               >
                 <IoText style={{ width: 25, height: 25, color: "black" }} />
               </button>
@@ -147,8 +138,9 @@ function MenuBar({
             </div>
             <button
               className="p-1 border-0 btn shadow-0 btn-hover"
+              title="Make a checklist"
+              disabled={!activeNote}
               onClick={() => {
-                setShowImage(false);
                 onEditField("checkBoxBar", true);
                 setCheckBoxBar(true);
               }}
@@ -159,8 +151,12 @@ function MenuBar({
               <LuTable style={{ width: 25, height: 25, color: "black" }} />
             </button> */}
           </div>
-          <div className="d-flex gap-3">
-            <button className="p-1 border-0 btn shadow-0 btn-hover">
+          <div className="d-flex gap-sm-3">
+            <button
+              className="p-1 border-0 btn shadow-0 btn-hover"
+              title="Add a Link"
+              disabled={!activeNote}
+            >
               <FaLink
                 style={{ width: 25, height: 25, color: "black" }}
                 onClick={() => setShowLinkModal(true)}
@@ -168,41 +164,28 @@ function MenuBar({
             </button>
             <div className="dropdown">
               <button
-                className="p-1 border-0 btn shadow-0 btn-hover dropdown-toggle"
+                className="p-1 border-0 btn shadow-0 btn-hover "
                 type="button"
                 id="dropdownMenuButton"
                 data-mdb-dropdown-init
                 data-mdb-ripple-init
                 aria-expanded="false"
-                onClick={() => setShowImage(!showImage)}
+                title="Add Images"
+                disabled={!activeNote}
+                onClick={() => {
+                  handleImageUpload();
+                }}
               >
                 <IoMdImages style={{ width: 25, height: 25, color: "black" }} />
               </button>
-              {showImage && (
-                <>
-                  <ul
-                    className="dropdown-menu list-group"
-                    aria-labelledby="dropdownMenuButton"
-                    style={{
-                      backgroundColor: "rgb(255 251 245)",
-                    }}
-                  >
-                    <li
-                      className="dropdown-item border-bottom list-hover"
-                      onClick={handleImageUpload}
-                    >
-                      Drag and drop to add images...
-                    </li>
-                  </ul>
-                  <input
-                    type="file"
-                    multiple
-                    ref={imageInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
-                  />
-                </>
-              )}
+              <input
+                type="file"
+                multiple
+                ref={imageInputRef}
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+                accept="image/png, image/jpeg"
+              />
             </div>
             <div className="dropdown">
               <button
@@ -212,8 +195,9 @@ function MenuBar({
                 data-mdb-dropdown-init
                 data-mdb-ripple-init
                 aria-expanded="false"
+                title="Add or remove password locks"
+                disabled={!activeNote}
                 onClick={() => {
-                  setShowImage(false);
                   setShowLock(!showLock);
                 }}
                 ref={lockRef}
@@ -225,7 +209,22 @@ function MenuBar({
                   className="dropdown-menu list-group"
                   aria-labelledby="dropdownMenuButton"
                 >
-                  <li className="dropdown-item border-bottom list-hover text-secondary">
+                  <li
+                    className="dropdown-item border-bottom list-hover"
+                    onClick={() => {
+                      const storedNotes = localStorage.notes
+                        ? JSON.parse(localStorage.notes)
+                        : [];
+
+                      const updatedNotes = storedNotes.map((note) => {
+                        if (note.password !== undefined) {
+                          return { ...note, password: true };
+                        }
+                        return note;
+                      });
+                      setNotes(updatedNotes);
+                    }}
+                  >
                     Close All Locked Notes
                   </li>
                   {/* <hr className="dropdown-divider" /> */}

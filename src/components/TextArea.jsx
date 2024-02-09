@@ -23,14 +23,16 @@ const TextArea = ({
 
   const handleKeyPress = (event, index) => {
     if (event.key === "Enter") {
-      const newDivsContent = divsContent.reduce((acc, content, i) => {
-        if (i === index) {
-          return [...acc, content, ""];
-        }
-        return [...acc, content];
-      }, []);
+      const newDivsContent = divsContent.reduce(
+        (acc, { content, style }, i) => {
+          if (i === index) {
+            return [...acc, { content, style }, { content: "", style: {} }];
+          }
+          return [...acc, { content, style }];
+        },
+        []
+      );
 
-      // Update the state with the new array
       setDivsContent(newDivsContent);
       event.preventDefault();
       setTimeout(() => {
@@ -46,7 +48,8 @@ const TextArea = ({
       });
 
       // onEditField("text", newDivsContent);
-    } else if (event.key === "Backspace" && divsContent[index] === "") {
+    }
+    else if (event.key === "Backspace" && divsContent[index] === "") {
       // Check if backspace is pressed and the current div is empty
       const newDivsContent = [...divsContent];
       const newIndex = Math.max(0, index - 1); // Ensure the index does not go below 0
@@ -75,23 +78,17 @@ const TextArea = ({
   };
 
   const handleContentChange = (event, index) => {
-    // Update the content of the corresponding div in the array
     const newDivsContent = [...divsContent];
-    newDivsContent[index] = event.target.textContent;
+    newDivsContent[index] = {
+      ...newDivsContent[index],
+      content: event.target.textContent,
+    };
     setDivsContent(newDivsContent);
   };
-  // const handleDivSelection = (index) => {
-  //   const selectedDiv = document.getElementById(
-  //     `${activeNote?.title}-${index}`
-  //   );
-  //   const Content = selectedDiv.textContent || selectedDiv.innerText;
-  //   // Use Content as needed
-  //   console.log(Content);
-  // };
 
   return (
     <>
-      {divsContent.map((content, index) => (
+      {divsContent.map(({ content, style }, index) => (
         <div
           id={`${activeNote?.title}-${index}`}
           key={index}
@@ -99,11 +96,13 @@ const TextArea = ({
           onMouseUp={() => setSelectedLine(index)}
           onKeyDown={(event) => handleKeyPress(event, index)}
           onBlur={(event) => handleContentChange(event, index)}
+          style={style}
           suppressContentEditableWarning={true}
         >
           {content}
         </div>
       ))}
+
     </>
   );
 };

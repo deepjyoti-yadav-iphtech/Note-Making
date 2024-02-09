@@ -5,10 +5,9 @@ import { HashLink as Link } from "react-router-hash-link";
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
- 
   return (
     <Link
-      to={`#section${note.id}`}
+      to={`section${note.id}`}
       className="p-2 list-group-item list-group-item-action px-3 border-0 rounded-3 mb-2 list-group-item-warning d-flex align-items-start justify-content-between gap-2"
       onClick={() => {
         setActiveNode(note.id);
@@ -38,7 +37,7 @@ const NoteList = ({ note, setActiveNode, onDeleteNote }) => {
           className="text-black"
           style={{ fontSize: "x-small", marginBottom: 0 }}
         >
-          {note.text && <span>{note.text.join(" ").substring(0, 50)}...</span>}
+          {note.text && <span>{note.text[0].content.substring(0, 50)}...</span>}
         </p>
         <p
           className="text-muted "

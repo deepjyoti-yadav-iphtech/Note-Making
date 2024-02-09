@@ -117,7 +117,7 @@ const Modal = ({ setShowLockModal, lockNotePassword, onEditField }) => {
           onSubmit={(values, { setSubmitting }) => {
             // Store values in local storage
             localStorage.setItem("Password", values.password);
-
+            onEditField("password", true);
             // Close the modal
             setShowLockModal(false);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   MdFormatBold,
   MdFormatItalic,
@@ -6,169 +6,138 @@ import {
 } from "react-icons/md";
 import { FaStrikethrough } from "react-icons/fa6";
 const FontMenu = ({
-  activeNote,
   divsContent,
   setDivsContent,
   selectedLine,
-  onEditField,
 }) => {
-  const [fontMenuselected, setFontMenuselected] = useState("");
+  // const [fontMenuselected, setFontMenuselected] = useState("");
 
   const handleTitleButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "font-size: 1.75rem; font-weight: bold;"
-          );
+          return {
+            ...item,
+            style: { fontSize: "1.75rem", fontWeight: "bold" },
+          };
         }
-        return content;
+        return item;
       });
-      newDivsContent.map((content,index)=>{
-        if (index === selectedLine) {
-          return setDivsContent(content.props?.children)
-        }
-        return setDivsContent(newDivsContent);
-      })
-      // console.log(newDivsContent[0].props.children);
+      setDivsContent(newDivsContent);
     }
   };
-  
-
-  
-  // onEditField("text", newDivsContent);
 
   const handleHeadingButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine = document.getElementById(
-            `${activeNote?.title}-${selectedLine}`
-          );
-          newLine.setAttribute(
-            "style",
-            "font-size: 1.5rem; font-weight: bold; "
-          );
+          return {
+            ...item,
+            style: { fontSize: "1.5rem", fontWeight: "bold" },
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
 
   const handleSubHeadingButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute("style", "font-size: 1.25rem; ");
+          return {
+            ...item,
+            style: { fontSize: "1.25rem" },
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
 
   const handleBodyButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute("style", "font-size: 1rem;");
+          return {
+            ...item,
+            style: { fontSize: "1rem" },
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
 
   const handleMonospaceButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "font-family: monospace; font-size: 1rem;"
-          );
+          return {
+            ...item,
+            style: { fontSize: "1rem", fontFamily: "monospace"},
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
+ 
 
   const handleBulletButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "display: list-item; margin-left: 20px;"
-          );
-          console.log(newLine);
+          return {
+            ...item,
+            style: {display:"list-item", marginLeft:"20px"},
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
 
   const handleDashedButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "list-style-type: dashed; margin-left: 20px;"
-          );
-          console.log(newLine);
+          return {
+            ...item,
+            style: {
+              display: "list-item",
+              marginLeft: "20px",
+              listStyleType: "dashed",
+            },
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
 
   const handleNumberedButtonClick = () => {
     if (selectedLine !== null) {
-      const newDivsContent = divsContent.map((content, index) => {
+      const newDivsContent = divsContent.map((item, index) => {
         if (index === selectedLine) {
-          const newLine =
-            document.querySelectorAll("[contentEditable]")[selectedLine];
-          newLine.setAttribute(
-            "style",
-            "display: list-item; list-style-type: decimal; margin-left: 20px;"
-          );
-          console.log(newLine);
+          return {
+            ...item,
+            style: {
+              display: "list-item",
+              marginLeft: "20px",
+              listStyleType: "decimal",
+            },
+          };
         }
-        return content;
+        return item;
       });
-
       setDivsContent(newDivsContent);
-      // onEditField("text", divsContent);
     }
   };
 
@@ -247,7 +216,7 @@ const FontMenu = ({
       <li
         className="dropdown-item fw-bold h3 mb-0 list-hover"
         onClick={(e) => {
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
           handleTitleButtonClick();
         }}
       >
@@ -256,7 +225,7 @@ const FontMenu = ({
       <li
         className="dropdown-item fw-bold h5 mb-0 list-hover"
         onClick={(e) => {
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
           handleHeadingButtonClick();
         }}
       >
@@ -265,7 +234,7 @@ const FontMenu = ({
       <li
         className="dropdown-item h6 mb-0 list-hover"
         onClick={(e) => {
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
           handleSubHeadingButtonClick();
         }}
       >
@@ -275,7 +244,7 @@ const FontMenu = ({
         className="dropdown-item list-hover"
         onClick={(e) => {
           handleBodyButtonClick();
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
         }}
       >
         Body
@@ -284,7 +253,7 @@ const FontMenu = ({
         className="dropdown-item list-hover"
         onClick={(e) => {
           handleMonospaceButtonClick();
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
         }}
       >
         Monospace
@@ -293,7 +262,7 @@ const FontMenu = ({
         className="dropdown-item list-hover"
         onClick={(e) => {
           handleBulletButtonClick();
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
         }}
       >
         . Bulleted List
@@ -302,7 +271,7 @@ const FontMenu = ({
         className="dropdown-item list-hover"
         onClick={(e) => {
           handleDashedButtonClick();
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
         }}
       >
         - Dashed List
@@ -311,7 +280,7 @@ const FontMenu = ({
         className="dropdown-item list-hover"
         onClick={(e) => {
           handleNumberedButtonClick();
-          setFontMenuselected(e.target.textContent);
+          // setFontMenuselected(e.target.textContent);
         }}
       >
         1. Numbered list

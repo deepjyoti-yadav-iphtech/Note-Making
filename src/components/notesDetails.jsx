@@ -2,30 +2,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
 import React, { useState, useEffect } from "react";
-import MenuBar from "./menubar";
+import MenuBar from "./Menubar";
 import TextArea from "./TextArea";
 import Highlighter from "react-highlight-words";
 import Locked from "./Locked";
 import Table from "./Table";
+import AddImage from "./AddImage";
 
 function NotesDetails({
+  setNotes,
   activeNote,
   onUpdateNote,
-  checkBoxBar,
-  setCheckBoxBar,
   lockNotePassword,
 }) {
   const [checklist, setChecklist] = useState(
     activeNote ? activeNote.checkbox || [] : [{ text: "", checked: false }]
   );
+  const [checkBoxBar, setCheckBoxBar] = useState(false);
   const [searchWords, setSearchWords] = useState("");
   const [focusedInputIndex, setFocusedInputIndex] = useState(0);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedLine, setSelectedLine] = useState(null);
-  const [divsContent, setDivsContent] = useState([""]);
+  const [divsContent, setDivsContent] = useState(
+    activeNote ? activeNote.text || [] : [{ content: "", style: {} }]
+  );
   const [imagesByNote, setImagesByNote] = useState({});
+  let arr = [];
+  for (let i = 0; i < divsContent.length; i++) {
+    arr.push(divsContent[i].content);
+  }
 
-  // console.log(link);
   const images = imagesByNote[activeNote?.id] || [];
 
   const handleDrop = (e) => {
@@ -51,6 +57,14 @@ function NotesDetails({
         ...(prevImagesByNote[activeNote?.id] || []),
         ...newImagesInfo,
       ],
+    }));
+  };
+
+  const handleDeleteImage = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImagesByNote((prevImagesByNote) => ({
+      ...prevImagesByNote,
+      [activeNote?.id]: updatedImages,
     }));
   };
 
@@ -120,8 +134,6 @@ function NotesDetails({
   }, [focusedInputIndex]);
 
   useEffect(() => {
-    // Save divsContent to local storage whenever it changes
-
     onEditField("text", divsContent);
   }, [divsContent]);
 
@@ -132,12 +144,9 @@ function NotesDetails({
     );
   }, [activeNote]);
 
-  // console.log(activeNote?.text.join(""));
-
   return (
-    <div id="section2">
+    <div id={`section${activeNote?.id}`}>
       <MenuBar
-        checkBoxBar={checkBoxBar}
         setCheckBoxBar={setCheckBoxBar}
         onUpdateNote={onUpdateNote}
         activeNote={activeNote}
@@ -148,8 +157,10 @@ function NotesDetails({
         divsContent={divsContent}
         setDivsContent={setDivsContent}
         selectedLine={selectedLine}
+        setSelectedLine={setSelectedLine}
         handleNewImages={handleNewImages}
         lockNotePassword={lockNotePassword}
+        setNotes={setNotes}
       />
 
       {activeNote ? (
@@ -199,16 +210,14 @@ function NotesDetails({
                   highlightClassName="YourHighlightClass"
                   searchWords={[`${searchWords}`]}
                   autoEscape={true}
-                  textToHighlight={activeNote.text.join("")}
+                  textToHighlight={arr.join()}
                 />
               ) : (
                 <TextArea
-                  onEditField={onEditField}
                   activeNote={activeNote}
                   divsContent={divsContent}
                   setDivsContent={setDivsContent}
                   setSelectedLine={setSelectedLine}
-                  selectedLine={selectedLine}
                 />
               )}
               {activeNote?.links !== undefined && (
@@ -227,13 +236,16 @@ function NotesDetails({
                 style={{
                   // border: "2px dashed #ccc",
                   height: "1024px",
-                  // padding: "20px",
                   textAlign: "center",
                   cursor: "pointer",
                 }}
               >
                 {images.map((img, index) => (
-                  <img key={index} src={img.url} alt={img.name} />
+                  <AddImage
+                    img={img}
+                    index={index}
+                    onDeleteImage={handleDeleteImage}
+                  />
                 ))}
               </div>
             </div>

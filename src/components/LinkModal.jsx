@@ -47,7 +47,16 @@ const LinkModal = ({ onEditField, setShowLinkModal, activeNote }) => {
                   onChange={(e) => setLinkText(e.target.value)}
                 />
               </div>
-              <div className="d-flex justify-content-center py-3">
+              <div className="d-flex justify-content-center gap-2 py-3">
+                <button
+                  type="button"
+                  className="btn p-1 px-2 text-capitalize text-black p-1 px-4 fw-normal bg-white"
+                  data-mdb-ripple-init=""
+                  data-mdb-dismiss="modal"
+                  onClick={() => setShowLinkModal(false)}
+                >
+                  Cancel
+                </button>
                 <button
                   type="button"
                   className="btn text-capitalize text-black p-1 px-4 btn-lg"

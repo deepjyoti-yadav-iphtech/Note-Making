@@ -64,14 +64,11 @@ function Sidebar({
     const newNote = {
       title,
       id: Date.now(),
-      text: [""],
+      text: [{ content: "", style: {} }],
       checkbox: [{ text: "", checked: false }],
       lastModified: Date.now(),
       checkBoxBar: "",
-      // password:"",
-    
     };
-    // setNotes((notes) => [...notes, newNote]);
     onAddNotes(newNote);
     setTitle("");
     setAddOpen(!addOpen);
@@ -90,7 +87,7 @@ function Sidebar({
             />
             <div className="text-center text-black">Prettier Notes</div>
           </div>
-          <div className="d-flex gap-2">
+          <div className="d-flex">
             <div className="dropdown ">
               <button
                 className="btn-hover p-1 btn shadow-0"
